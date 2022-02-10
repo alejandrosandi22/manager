@@ -10,8 +10,6 @@
 
 #environments
 /src/environments
-/src/environments/environment.js
-/src/environments/environment.prod.js
 
 # production
 /build
