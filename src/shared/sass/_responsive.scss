@@ -47,3 +47,11 @@
     }
   }
 }
+
+@mixin recovery {
+  @media (max-width: 1024px) {
+    .recovery-container{
+      padding: 20rem 5rem;
+    }
+  }
+}
