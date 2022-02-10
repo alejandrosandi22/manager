@@ -1,6 +1,9 @@
 import { Component } from "react";
 import './SignUp.scss';
+import SignInButtons from "../../shared/components/SignInButtons/SignInButtons";
 import accessAccount from '../../assets/access_account.svg';
+
+
 
 export default class SignUp extends Component {
   render(){
@@ -36,12 +39,9 @@ export default class SignUp extends Component {
             </div>
           </form>
           <button className="sign-up-button">Sign In</button>
+          <a className="have-account" href="/login">Do you already have an account?</a>
           <span>or</span>
-          <div className="sign-up-alternatives">
-            <button className="google"><i className="fab fa-google"></i></button>
-            <button className="facebook"><i className="fab fa-facebook-f"></i></button>
-            <button className="github"><i className="fab fa-github"></i></button>
-          </div>
+          <SignInButtons/>
         </div>
         <div className="welcome-wrapper">
           <h1 className="welcome-title">Welcome!</h1>
@@ -55,7 +55,7 @@ export default class SignUp extends Component {
             <span className="t-over"></span>
             <span className="t-over"></span>
             <span className="t-over"></span>
-            <img className="access-account-img" src={accessAccount} alt="access-account" />
+            <img className="front-image" src={accessAccount} alt="access-account" />
           </div>
         </div>
       </div>

@@ -1,0 +1,43 @@
+.sign-in-buttons{
+  width: fit-content;
+  & > button{
+    border: none;
+    outline: none;
+    border-radius: 50%;
+    width: 3.5rem;
+    height: 3.5rem;
+    font-size: 1rem;
+    margin: 0 1rem;
+    cursor: pointer;
+    &:hover{
+      filter: brightness(110%)
+    }
+  }
+  .google{
+    color: #fff;
+    background: linear-gradient(145deg, #d24432, #b03a2a);
+    &:active{
+      background: #C4402F;
+      box-shadow: inset 3px 3px 0px #4e1a13,
+                  inset -3px -3px 0px #ff664b;;
+    }
+  }
+  .facebook{
+    color: #fff;
+    background: linear-gradient(145deg, #3d5c96, #334d7e);
+    &:active{
+      background: #39568C;
+      box-shadow: inset 3px 3px 0px #172238,
+                  inset -3px -3px 0px #5b8ae0;
+    }
+  }
+  .github{
+    color: #fff;
+    font-size: 1.2rem;
+    background: linear-gradient(145deg, #242424, #1f1f1f);
+    &:active{
+      box-shadow: inset 3px 3px 0px #090808,
+                  inset -3px -3px 0px #232020;
+    }
+  }
+}
