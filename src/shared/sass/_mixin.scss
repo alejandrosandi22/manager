@@ -1,0 +1,107 @@
+@mixin image {
+  position: relative;
+  width: 32rem;
+  transition: all .6s ease-out;
+  &:hover{
+    transition: all .3s linear;
+  }
+  .t-over{
+    position: absolute;
+    width: 33.33%;
+    height: 33.33%;
+    z-index: 1;
+    transform-style: preserve-3d;
+    &:nth-child(1){
+      left: 0;
+      top: 0;
+    &:hover ~ .front-image{
+      transform: rotateX(-12deg) rotateY(-12deg);
+      }
+    }
+    &:nth-child(2){
+      left: 33.33%;
+      top: 0;
+      &:hover ~ .front-image{
+        transform: rotateX(-12deg) rotateY(0deg);
+      }
+    }
+    &:nth-child(3){
+      left: 66.66%;
+      top: 0;
+      &:hover ~ .front-image{
+        transform: rotateX(-12deg) rotateY(12deg);
+      }
+    }
+    &:nth-child(4){
+      left: 0;
+      top: 33.33%;
+      &:hover ~ .front-image{
+        transform: rotateX(0deg) rotateY(12deg);
+      }
+    }
+    &:nth-child(5){
+      left: 33.33%;
+      top: 33.33%;
+      &:hover ~ .front-image{
+        transform: rotateX(0deg) rotateY(0deg);
+      }
+    }
+    &:nth-child(6){
+      left: 66.66%;
+      top: 33.33%;
+      &:hover ~ .front-image{
+        transform: rotateX(0deg) rotateY(-12deg);
+      }
+    }
+    &:nth-child(7){
+      left: 0;
+      top: 66.66%;
+      &:hover ~ .front-image{
+        transform: rotateX(12deg) rotateY(12deg);
+      }
+    }
+    &:nth-child(8){
+      left: 33.33%;
+      top: 66.66%;
+      &:hover ~ .front-image{
+        transform: rotateX(12deg) rotateY(0deg);
+      }
+    }
+    &:nth-child(9){
+      left: 66.66%;
+      top: 66.66%;
+      &:hover ~ .front-image{
+        transform: rotateX(12deg) rotateY(-12deg);
+      }
+    }
+  }
+  .front-image{
+    width: 100%;
+    filter: drop-shadow(2rem 0 .6rem #000);
+    transition: .5s;
+  }
+}
+
+@mixin auth-buttons {
+  display: block;
+  justify-self: center;
+  outline: none;
+  border: none;
+  width: 8rem;
+  height: 3rem;
+  border-radius: .5rem;
+  font-size: 1rem;
+  color: #fff;
+  cursor: pointer;
+  background: linear-gradient(145deg, #151515, #121212);
+  box-shadow:  5px 5px 10px #080808,
+              -5px -5px 10px #202020;
+  &:hover{
+    filter: brightness(110%);
+  }
+  &:active{
+    background: #141414;
+    box-shadow: inset .5rem .5rem 1.8rem #080808,
+              inset -.5rem -.5rem 1.8rem #202020;
+  }
+}
