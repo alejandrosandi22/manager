@@ -14,6 +14,7 @@
   .recovery-title{
     color: #fff;
     font-size: 2rem;
+    text-align: center;
   }
   & > input{
     @include mixin.inputs();
@@ -30,3 +31,5 @@
     }
   }
 }
+
+@include responsive.recovery();
