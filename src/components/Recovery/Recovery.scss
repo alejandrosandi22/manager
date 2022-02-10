@@ -1,0 +1,32 @@
+@use '../../shared/sass/responsive';
+@use '../../shared/sass/mixin';
+
+.recovery-container{
+  width: 100%;
+  height: 100vh;
+  background: #141414;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 10rem 0;
+  .recovery-title{
+    color: #fff;
+    font-size: 2rem;
+  }
+  & > input{
+    @include mixin.inputs();
+    width: 25rem;
+  }
+  .send-button{
+    @include mixin.auth-buttons();
+  }
+  a{
+    font-size: 1rem;
+    color: #C0C0C0;
+    &:hover{
+      color: #fff;
+    }
+  }
+}
