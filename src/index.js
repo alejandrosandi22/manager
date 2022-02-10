@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import './index.scss';
 import App from './App';
 import firebase from 'firebase/compat/app';
 import environment from './environments/environment'

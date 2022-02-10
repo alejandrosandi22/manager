@@ -1,0 +1,21 @@
+@mixin sign-up {
+  @media (max-width: 1024px) {
+    .sign-up-container{
+      height: 100%;
+      flex-direction: column;
+      .sign-up{
+        width: 100%;
+        height: 100%;
+        .sign-up-form{
+          height: 60%;
+          & > div{
+            width: 100%;
+          }
+        }
+      }
+      .welcome-wrapper{
+        display: none;
+      }
+    }
+  }
+}

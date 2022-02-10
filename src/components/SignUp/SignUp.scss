@@ -1,0 +1,256 @@
+@use '../../shared/responsive.scss';
+
+.sign-up-container{
+  width: 100%;
+  height: 100vh;
+  background: #141414;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  .sign-up{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    width: 40%;
+    height: 100vh;
+    width: 80rem;
+    padding: 2rem;
+    .sign-up-title{
+      color: #fff;
+      font-size: 2rem;
+      text-transform: uppercase;
+    }
+    .sign-up-form{
+      width: 80%;
+      height: 40%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 5%;
+      & > div{
+        display: block;
+        width: 45%;
+        label{
+          color: #fff;
+          font-size: 1.1rem;
+        }
+        input:not(input[type=file]){
+          margin-top: 1rem;
+          padding: 1rem;
+          outline: none;
+          color: #fff;
+          width: calc(100% - 1rem);
+          height: 2rem;
+          border: none;
+          border-radius: .3rem;
+          background: #141414;
+          box-shadow: inset .5rem .5rem 1.2rem #0C0C0C,
+                      inset -.5rem -.5rem 1.2rem #1C1C1C;
+          &:focus{
+            filter: brightness(110%);
+          }
+        }
+      }
+      .avatar{
+        & > input[type=file]{
+          width: 0;
+          height: 0;
+          opacity: 0;
+          overflow: hidden;
+          z-index: -1;
+          padding: 0;
+        }
+        label{
+          padding: .5rem 1rem;
+          margin: 1rem;
+          font-size: 1rem;
+          color: #fff;
+          background: #141414;
+          background: linear-gradient(145deg, #151515, #121212);
+          box-shadow:  5px 5px 10px #080808,
+                      -5px -5px 10px #202020;;
+          cursor: pointer;
+          &:hover{
+            filter: brightness(110%);
+          }
+          &:active{
+            background: #141414;
+            box-shadow: inset .5rem .5rem 1.8rem #080808,
+                      inset -.5rem -.5rem 1.8rem #202020;
+          }
+        }
+        span{
+          font-size: 1rem;
+          color: #fff;
+        }
+      }
+    }
+    .sign-up-button{
+      display: block;
+      justify-self: center;
+      outline: none;
+      border: none;
+      width: 8rem;
+      height: 3rem;
+      border-radius: .5rem;
+      font-size: 1rem;
+      color: #fff;
+      cursor: pointer;
+      background: linear-gradient(145deg, #151515, #121212);
+      box-shadow:  5px 5px 10px #080808,
+                  -5px -5px 10px #202020;
+      &:hover{
+        filter: brightness(110%);
+      }
+      &:active{
+        background: #141414;
+        box-shadow: inset .5rem .5rem 1.8rem #080808,
+                  inset -.5rem -.5rem 1.8rem #202020;
+      }
+    }
+    & > span{
+      color: #fff;
+    }
+    .sign-up-alternatives{
+      width: fit-content;
+      & > button{
+        border: none;
+        outline: none;
+        border-radius: 50%;
+        width: 3.5rem;
+        height: 3.5rem;
+        font-size: 1rem;
+        margin: 0 1rem;
+        cursor: pointer;
+        &:hover{
+          filter: brightness(110%)
+        }
+      }
+      .google{
+        color: #fff;
+        background: linear-gradient(145deg, #d24432, #b03a2a);
+        &:active{
+          background: #C4402F;
+          box-shadow: inset 3px 3px 0px #4e1a13,
+                      inset -3px -3px 0px #ff664b;;
+        }
+      }
+      .facebook{
+        color: #fff;
+        background: linear-gradient(145deg, #3d5c96, #334d7e);
+        &:active{
+          background: #39568C;
+          box-shadow: inset 3px 3px 0px #172238,
+                      inset -3px -3px 0px #5b8ae0;
+        }
+      }
+      .github{
+        color: #fff;
+        font-size: 1.2rem;
+        background: linear-gradient(145deg, #242424, #1f1f1f);
+        &:active{
+          box-shadow: inset 3px 3px 0px #090808,
+                      inset -3px -3px 0px #232020;
+        }
+      }
+    }
+  }
+  .welcome-wrapper{
+    width: 60%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    .welcome-title{
+      font-size: 4rem;
+      color: #fff;
+    }
+    .img-wrapper{
+      position: relative;
+      width: 32rem;
+      transition: all .6s ease-out;
+      &:hover{
+        transition: all .3s linear;
+      }
+      .t-over{
+        position: absolute;
+        width: 33.33%;
+        height: 33.33%;
+        z-index: 1;
+        transform-style: preserve-3d;
+        &:nth-child(1){
+          left: 0;
+          top: 0;
+        &:hover ~ .access-account-img{
+          transform: rotateX(-12deg) rotateY(-12deg);
+          }
+        }
+        &:nth-child(2){
+          left: 33.33%;
+          top: 0;
+          &:hover ~ .access-account-img{
+            transform: rotateX(-12deg) rotateY(0deg);
+          }
+        }
+        &:nth-child(3){
+          left: 66.66%;
+          top: 0;
+          &:hover ~ .access-account-img{
+            transform: rotateX(-12deg) rotateY(12deg);
+          }
+        }
+        &:nth-child(4){
+          left: 0;
+          top: 33.33%;
+          &:hover ~ .access-account-img{
+            transform: rotateX(0deg) rotateY(12deg);
+          }
+        }
+        &:nth-child(5){
+          left: 33.33%;
+          top: 33.33%;
+          &:hover ~ .access-account-img{
+            transform: rotateX(0deg) rotateY(0deg);
+          }
+        }
+        &:nth-child(6){
+          left: 66.66%;
+          top: 33.33%;
+          &:hover ~ .access-account-img{
+            transform: rotateX(0deg) rotateY(-12deg);
+          }
+        }
+        &:nth-child(7){
+          left: 0;
+          top: 66.66%;
+          &:hover ~ .access-account-img{
+            transform: rotateX(12deg) rotateY(12deg);
+          }
+        }
+        &:nth-child(8){
+          left: 33.33%;
+          top: 66.66%;
+          &:hover ~ .access-account-img{
+            transform: rotateX(12deg) rotateY(0deg);
+          }
+        }
+        &:nth-child(9){
+          left: 66.66%;
+          top: 66.66%;
+          &:hover ~ .access-account-img{
+            transform: rotateX(12deg) rotateY(-12deg);
+          }
+        }
+      }
+      .access-account-img{
+        width: 100%;
+        filter: drop-shadow(2rem 0 .6rem #000);
+        transition: .5s;
+      }
+    }
+  }
+}
+
+@include responsive.sign-up();
