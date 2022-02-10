@@ -1,18 +1,9 @@
-import { getAuth } from "firebase/auth";
+import SignUp from "./components/SignUp/SignUp";
 
 function App() {
-  const auth = getAuth();
-  const user = auth.currentUser;
-  const getCurrentUser = () => {
-    if (user) {
-      console.log(user);
-    } else {
-      console.log('No user is signed in.');
-    }
-  }
   return (
     <div className="App">
-      <button onClick={getCurrentUser}>Get curent user</button>
+      <SignUp/>
     </div>
   );
 }
