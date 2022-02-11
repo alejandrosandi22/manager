@@ -1,0 +1,34 @@
+@use '../../shared/sass/mixin';
+@use '../../shared/sass/responsive';
+
+.dashboard-container{
+  width: 100%;
+  height: 100%;
+  background: #141414;
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  grid-template-areas:
+  'gym finance goals'
+  'dates dates proyects';
+  .areas{
+    margin: 1rem;
+    background: #C0C0C005;
+    border-radius: .5rem;
+  }
+  .gym-section{
+    grid-area: gym;
+  }
+  .finance-section{
+    grid-area: finance;
+  }
+  .goals-section{
+    grid-area: goals;
+  }
+  .dates-section{
+    grid-area: dates;
+  }
+  .proyects-section{
+    grid-area: proyects;
+  }
+}

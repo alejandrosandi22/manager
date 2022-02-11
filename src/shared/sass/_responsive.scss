@@ -55,3 +55,24 @@
     }
   }
 }
+
+@mixin proyects {
+  @media (max-width: 1024px) {
+    .proyects-container{
+      min-height: 100vh;
+      overflow-y: scroll;
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 2rem;
+      .proyects-list{
+        height: 70vh;
+        .list-container{
+          height: 50vh;
+        }
+      }
+      .completed-container{
+        height: 70vh;
+      }
+    }
+  }
+}
