@@ -1,7 +1,8 @@
 @use '../../shared/sass/mixin';
 @use '../../shared/sass/responsive';
 
-.proyects-container{
+.projects-container{
+  padding-top: 3rem;
   width: 100%;
   height: 100vh;
   background: #141414;
@@ -9,7 +10,7 @@
   grid-template-columns: 3fr 1fr;
   grid-template-rows: 1fr;
   overflow: hidden;
-  .proyects-list{
+  .projects-list{
     width: 100%;
     height: 100%;
     .list-container{
@@ -19,7 +20,7 @@
       flex-direction: column;
       align-items: center;
       overflow-y: scroll;
-      .proyect{
+      .project{
         width: 90%;
         height: 15rem;
         background: #EFEFEF;
@@ -36,14 +37,14 @@
           display: flex;
           justify-content: flex-start;
           align-items: center;
-          .title-proyect{
+          .title-project{
             font-size: 1.5rem;
             text-transform: uppercase;
             color: #000;
             margin-left: .5rem;
           }
         }
-        .proyect-description{
+        .project-description{
           padding: .5rem;
           font-size: 1.1rem;
           color: #000;
@@ -51,7 +52,7 @@
           height: 5rem;
           overflow-y: scroll;
         }
-        .details-proyect{
+        .details-project{
           width: 100%;
           display: flex;
           justify-content: space-between;
@@ -93,15 +94,15 @@
         background: linear-gradient(145deg, #bebebe, #e2e2e2);
         box-shadow:  5px 5px 2px #545454;
         .check-completed{
-          .title-proyect{
+          .title-project{
             color: #9E9E9E;
             text-decoration: line-through solid #000;
           }
         }
-        .proyect-description{
+        .project-description{
           color: #9E9E9E;
         }
-        .details-proyect{
+        .details-project{
           .details{
             span, span > a {
               color: #9E9E9E;
@@ -116,7 +117,7 @@
       display: flex;
       justify-content: space-around;
       align-items: center;
-      .add-proyect{
+      .add-project{
         @include mixin.auth-buttons();
       }
       .search{
@@ -189,6 +190,9 @@
             p{
               color:#fff;
               font-size: 1rem;
+              a{
+                color: #fff;
+              }
             }
           }
           .see-button{
@@ -209,4 +213,4 @@
   }
 }
 
-@include responsive.proyects();
+@include responsive.projects();

@@ -10,7 +10,7 @@
   grid-template-rows: 1fr 1fr;
   grid-template-areas:
   'gym finance goals'
-  'dates dates proyects';
+  'dates dates projects';
   .areas{
     margin: 1rem;
     background: #C0C0C005;
@@ -28,7 +28,7 @@
   .dates-section{
     grid-area: dates;
   }
-  .proyects-section{
-    grid-area: proyects;
+  .projects-section{
+    grid-area: projects;
   }
 }

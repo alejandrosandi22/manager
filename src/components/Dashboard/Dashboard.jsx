@@ -11,7 +11,7 @@ export default class Dashboard extends Component{
         <div className='areas finance-section'></div>
         <div className='areas goals-section'></div>
         <div className='areas dates-section'></div>
-        <div className='areas proyects-section'></div>
+        <div className='areas projects-section'></div>
       </div>
     );
   }

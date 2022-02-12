@@ -94,8 +94,8 @@
   color: #fff;
   cursor: pointer;
   background: linear-gradient(145deg, #151515, #121212);
-  box-shadow:  5px 5px 10px #080808,
-              -5px -5px 10px #202020;
+  box-shadow:  .25rem .25rem .5rem #080808,
+              -.25rem -.25rem .5rem #202020;
   &:hover{
     filter: brightness(110%);
   }
