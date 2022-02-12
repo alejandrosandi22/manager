@@ -52,19 +52,22 @@
   @media (max-width: 1024px) {
     .recovery-container{
       padding: 20rem 5rem;
+      .recovery-title{
+        font-size: 1.5rem;
+      }
     }
   }
 }
 
-@mixin proyects {
+@mixin projects {
   @media (max-width: 1024px) {
-    .proyects-container{
+    .projects-container{
       min-height: 100vh;
       overflow-y: scroll;
       grid-template-columns: 1fr;
       grid-template-rows: 1fr 1fr;
       gap: 2rem;
-      .proyects-list{
+      .projects-list{
         height: 70vh;
         .list-container{
           height: 50vh;
@@ -72,6 +75,78 @@
       }
       .completed-container{
         height: 70vh;
+      }
+    }
+  }
+}
+
+@mixin nav {
+  @media (max-width: 1024px) {
+    .nav-container{
+      justify-content: space-between;
+      padding: 0 3rem;
+      .nav{
+        background: linear-gradient(145deg, #121212, #151515);
+        flex-direction: column;
+        position: fixed;
+        height: calc(50% - 4rem);
+        width: 50%;
+        right: 0;
+        top: 4rem;
+        box-shadow: -2px 5px 5px #080808;
+        transform: translateX(100%);
+        transition: .5s;
+        .services-wrapper{
+          gap: 0;
+          height: 80%;
+          flex-direction: column;
+          .list{
+            height: 33%;
+            width: 100%;
+            border-top: 1px solid #202020;
+            .sublist{
+              top: 50%;
+              left: -100%;
+              box-shadow: -2px 5px 5px #080808;
+              width: 101%;
+              li{
+                height: 5rem;
+              }
+            }
+          }
+        }
+        .auth-user-wrapper{
+          border-top: 1px solid #202020;
+          border-bottom: 1px solid #202020;
+          gap: 0;
+          height: 20%;
+          .list{
+            height: 100%;
+            width: 100%;
+            img{
+              height: 2.5rem;
+            }
+            i{
+              font-size: 1.5rem;
+            }
+            .sublist{
+              top: 50%;
+              left: -100%;
+              width: 100%;
+              box-shadow: -2px 5px 5px #080808;
+              li{
+                height: 5rem;
+              }
+            }
+          }
+        }
+      }
+      .nav-toggle{
+        transform: translateX(0);
+        transition: .5s;
+      }
+      .bars-wrapper{
+        display: flex;
       }
     }
   }

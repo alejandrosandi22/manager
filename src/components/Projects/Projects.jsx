@@ -1,12 +1,13 @@
 import { Component } from 'react';
-import './Proyects.scss';
+import './Projects.scss';
+import Nav from '../../shared/components/Nav/Nav';
 
 function CompletedCard(){
   return(
     <div className='completed-card'>
       <div className='title-wrapper'>
         <h4 className='card-title'>Chat</h4>
-        <p>Link: <a>https://chat-app.cf</a>a</p>
+        <p>Link: <a href='https://chat-app.cf'>https://chat-app.cf</a></p>
       </div>
       <button className='see-button'>See</button>
     </div>
@@ -15,13 +16,13 @@ function CompletedCard(){
 
 function Card() {
   return(
-    <div className={'proyect'}>
+    <div className={'project'}>
       <div className='check-completed'>
         <input type="checkbox" name="completed" id="completed" />
-        <h3 className='title-proyect'>Chat</h3>
+        <h3 className='title-project'>Chat</h3>
       </div>
-      <p className='proyect-description'>This is a web app where you can chat with other people in real time.</p>
-      <div className='details-proyect'>
+      <p className='project-description'>This is a web app where you can chat with other people in real time.</p>
+      <div className='details-project'>
         <div className='details'>
           <span>Link: <a href="https://chat-app.cf" target="_blank" rel='noreferrer'>https://chat-app.cf</a></span>
           <span>Details: Created with vue and firebase.</span>
@@ -35,11 +36,11 @@ function Card() {
   );
 }
 
-function CompletedProyects() {
+function Completedprojects() {
   return(
     <div className='completed-container'>
       <div className='completed-wrapper'>
-        <h3 className='completed-title'>Completed Proyects</h3>
+        <h3 className='completed-title'>Completed projects</h3>
         <div className='cards-wrapper'>
           <CompletedCard/>
         </div>
@@ -48,15 +49,16 @@ function CompletedProyects() {
   );
 }
 
-export default class Proyects extends Component{
+export default class projects extends Component{
   render(){
     return(
-      <div className='proyects-container'>
-        <div className='proyects-list'>
+      <div className='projects-container'>
+        <Nav/>
+        <div className='projects-list'>
           <div className='actions-nav'>
-            <button className='add-proyect'><i className='fas fa-plus'></i> add proyect</button>
+            <button className='add-project'><i className='fas fa-plus'></i> add project</button>
             <div className='search'>
-              <input type="text" name="search" id="search" placeholder='Search proyect'/>
+              <input type="text" name="search" id="search" placeholder='Search project'/>
               <label htmlFor="search"><i className='fas fa-search'></i></label>
             </div>
           </div>
@@ -64,7 +66,7 @@ export default class Proyects extends Component{
             <Card/>
           </div>
         </div>
-        <CompletedProyects/>
+        <Completedprojects/>
       </div>
     );
   }
