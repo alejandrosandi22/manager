@@ -1,6 +1,7 @@
 import { Component } from 'react';
 import './Projects.scss';
 import Nav from '../../shared/components/Nav/Nav';
+import ProjectsForm from '../../shared/components/ProjectsForm/ProjectsForm';
 
 function CompletedCard(){
   return(
@@ -50,13 +51,26 @@ function Completedprojects() {
 }
 
 export default class projects extends Component{
+
+  constructor(){
+    super();
+    this.state = {
+      showForm: false
+    }
+  }
+
+  formToggle = () => {
+    this.state.showForm ? this.setState({showForm: false}) : this.setState({showForm: true});
+  }
+
   render(){
     return(
       <div className='projects-container'>
+       <ProjectsForm showForm={this.state.showForm} formToggle={this.formToggle}/>
         <Nav/>
         <div className='projects-list'>
           <div className='actions-nav'>
-            <button className='add-project'><i className='fas fa-plus'></i> add project</button>
+            <button onClick={this.formToggle} className='add-project'><i className='fas fa-plus'></i> add project</button>
             <div className='search'>
               <input type="text" name="search" id="search" placeholder='Search project'/>
               <label htmlFor="search"><i className='fas fa-search'></i></label>
