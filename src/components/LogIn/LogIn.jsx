@@ -3,6 +3,8 @@ import SignInButtons from '../../shared/components/SignInButtons/SignInButtons';
 import './LogIn.scss';
 import personalSettings from '../../assets/personal_settings.svg';
 
+import { Link } from 'react-router-dom';
+
 export default class LogIn extends Component {
   render(){
     return(
@@ -21,8 +23,8 @@ export default class LogIn extends Component {
           </form>
           <button className='log-in-button'>Log In</button>
           <div className='account-suggestions'>
-            <a href="/recover">Forget your password?</a>
-            <a href="/signup">You do not have an account?</a>
+            <Link to="/recovery">Forget your password?</Link>
+            <Link to="/signup">You do not have an account?</Link>
           </div>
           <span>or</span>
           <SignInButtons/>

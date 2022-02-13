@@ -5,6 +5,7 @@ import App from './App';
 import firebase from 'firebase/compat/app';
 import environment from './environments/environment'
 import environmentProd from './environments/environment.prod';
+import { BrowserRouter } from 'react-router-dom';
 
 const production = false;
 
@@ -16,7 +17,9 @@ if (production) {
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
 );

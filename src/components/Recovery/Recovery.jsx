@@ -1,6 +1,8 @@
 import { Component } from 'react';
 import './Recovery.scss';
 
+import { Link } from 'react-router-dom';
+
 export default class Recovery extends Component {
   render(){
     return(
@@ -8,7 +10,7 @@ export default class Recovery extends Component {
         <h1 className='recovery-title'>Enter your email to reset your password</h1>
         <input type="email" name="email" id="email" placeholder='Enter your email'/>
         <button className='send-button'>Send</button>
-        <a href="/login">Back to login</a>
+        <Link to="/login">Back to login</Link>
       </div>
     );
   }

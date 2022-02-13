@@ -2,7 +2,7 @@ import { Component } from "react";
 import './SignUp.scss';
 import SignInButtons from "../../shared/components/SignInButtons/SignInButtons";
 import accessAccount from '../../assets/access_account.svg';
-
+import { Link } from "react-router-dom";
 
 
 export default class SignUp extends Component {
@@ -39,7 +39,7 @@ export default class SignUp extends Component {
             </div>
           </form>
           <button className="sign-up-button">Sign In</button>
-          <a className="have-account" href="/login">Do you already have an account?</a>
+          <Link className="have-account" to="/login">Do you already have an account?</Link>
           <span>or</span>
           <SignInButtons/>
         </div>
