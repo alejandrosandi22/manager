@@ -1,6 +1,6 @@
 import { useRoutes } from 'react-router';
-import { Navigate, useNavigate } from 'react-router-dom';
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { Navigate } from 'react-router-dom';
+import { getAuth } from "firebase/auth";
 
 import Dashboard from '../components/Dashboard/Dashboard';
 import Projects from '../components/Projects/Projects';
@@ -10,15 +10,13 @@ import Recovery from '../components/Recovery/Recovery';
 
 const ProtectedRoutes = ({ children }) => {
   
-  const navigate = useNavigate();
-  
   const auth = getAuth();
-  onAuthStateChanged(auth, (user) => {
-    if (!user) {
-      return navigate('/login');
-    }
-  })
-  
+  const user = auth.currentUser;
+
+  if (!user) {
+    return <Navigate to='/login' />
+  }
+
   return children;
 }
 
