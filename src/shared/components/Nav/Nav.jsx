@@ -4,9 +4,11 @@ import './Nav.scss';
 import { Link, useNavigate } from 'react-router-dom';
 import { getAuth, signOut } from 'firebase/auth';
 
-export default function Nav(){
+export default function Nav(props){
   var [navToggle, setNavToggle] = useState(true);
   const navigate = useNavigate();
+
+  console.log('props =>', props.currentUser.current.photoURL)
 
   const navToggleChange = () => {
     navToggle ? setNavToggle(false) : setNavToggle(true);
@@ -46,7 +48,7 @@ export default function Nav(){
         </ul>
         <ul className='auth-user-wrapper'>
           <li className='list'>
-            <img src="https://simgbb.com/avatar/v68pcQbsbPNH.png" alt="user" />
+            <img src={ props.currentUser.current.photoURL } alt="user" />
             <i className='fas fa-angle-down'></i>
             <ul className='sublist'>
               <li><a href="https://alejandrosandi.ml">Settings</a></li>
