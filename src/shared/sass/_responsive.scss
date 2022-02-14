@@ -6,8 +6,12 @@
       .sign-up{
         width: 100%;
         height: 100%;
+        .sign-up-title{
+          margin: unset;
+          height: auto;
+        }
         .sign-up-form{
-          height: 60%;
+          height: 70%;
           & > div{
             width: 100%;
           }

@@ -20,11 +20,15 @@
     .sign-up-title{
       color: #fff;
       font-size: 2rem;
+      display: flex;
+      align-items: center;
+      height: 12%;
+      margin-bottom: 1rem;
       text-transform: uppercase;
     }
     .sign-up-form{
       width: 80%;
-      height: 40%;
+      height: 60%;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -74,9 +78,10 @@
           color: #fff;
         }
       }
-    }
-    .sign-up-button{
-      @include mixin.auth-buttons();
+      .sign-up-button{
+        @include mixin.auth-buttons();
+        margin: 2rem;
+      }
     }
     .have-account{
       font-size: 1rem;
