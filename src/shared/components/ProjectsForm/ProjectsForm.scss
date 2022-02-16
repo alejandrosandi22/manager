@@ -15,7 +15,6 @@
   height: 0%;
   background: #2020205f;
   z-index: 200;
-  transition: .5s;
   .projects-form{
     padding: 2rem;
     width: 60vw;
@@ -59,7 +58,7 @@
     }
   }
   .show-form{
-    animation: show .5s forwards;
+    animation: show .3s forwards;
   }
   .hide-form{
     animation: hide .5s forwards;
@@ -69,7 +68,7 @@
   animation: hide-bg-form .6s forwards;
 }
 .show-bg-form{
-  animation: show-bg-form .5s forwards;
+  animation: show-bg-form .3s forwards;
 }
 
 @keyframes hide-bg-form {
