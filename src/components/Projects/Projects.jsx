@@ -1,9 +1,8 @@
-import { useState, useEffect, useRef } from 'react';
-import { collection, getDocs, getFirestore, query } from "firebase/firestore";
+import React, { useState, useEffect, useRef } from 'react';
+import { collection, docs, getFirestore, query, orderBy, onSnapshot } from "firebase/firestore";
 import './Projects.scss';
 import Nav from '../../shared/components/Nav/Nav';
 import ProjectsForm from '../../shared/components/ProjectsForm/ProjectsForm';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 function CompletedCard(){
   return(
@@ -17,19 +16,18 @@ function CompletedCard(){
   );
 }
 
-function Card(props) {
-
+function Card({ project }) {
   return(
     <div className='project'>
       <div className='check-completed'>
         <input type="checkbox" name="completed" id="completed" />
-        <h3 className='title-project'>{ props.project.name }</h3>
+        <h3 className='title-project'>{ project.name }</h3>
       </div>
-      <p className='project-description'>{ props.project.description }</p>
+      <p className='project-description'>{ project.description }</p>
       <div className='details-project'>
         <div className='details'>
-          <span>Link: <a href="https://chat-app.cf" target="_blank" rel='noreferrer'>{ props.project.link }</a></span>
-          <span>Details: { props.project.details }</span>
+          <span>Link: <a href="https://chat-app.cf" target="_blank" rel='noreferrer'>{ project.link }</a></span>
+          <span>Details: { project.details }</span>
         </div>
         <div className='actions'>
           <button><i className='fas fa-pen'></i></button>
@@ -53,40 +51,45 @@ function Completedprojects() {
   );
 }
 
-export default function Projects() {
+export default function Projects({ user }) {
+  const db = getFirestore();
 
-  const [ showAndHide, setShowAndHide ] = useState(false);
-  let [ currentUser, setCurrentUser ] = useState()
-  let allProjects = useRef([]);
+  var [ loadProjects, setLoadProjects ] = useState();
+  
+  let [ projects, setProjects ] = useState([]);
+  let [ showAndHide, setShowAndHide ] = useState(false);
+  let [ isOpen, setIsOpen ] = useState(false);
 
-  const formToggle = () => {
-    showAndHide.showAndHide ? setShowAndHide({showAndHide: false}) : setShowAndHide({showAndHide: true});
+  const getProyects = async () => {
+    const queryCollection = query(collection(db, 'projects'));
+    const q = query(queryCollection, orderBy('createdAt', 'desc'));
+
+    onSnapshot(q, (snapchot) => {
+      setProjects(projects = []);
+      snapchot.docs.forEach((doc) => {
+        if (doc.data().id === user.uid) {
+          projects.push(doc.data());
+        }
+      })
+    })
+    setLoadProjects(loadProjects = projects.map(project =>  <Card key={project.createdAt} project={project} />));
   }
 
-  useEffect(async () => {
+  useEffect(() => {
+    if (user) {
+      getProyects();
+    }
+  }, [user])
 
-    const db = getFirestore();
-    const q = query(collection(db, 'projects'));
-    const auth = getAuth();
-    onAuthStateChanged(auth, (user) => setCurrentUser( currentUser = user ))
-  
-    const querySnapchot = await getDocs(q);
-    allProjects.current = []
-    querySnapchot.forEach((doc) => {
-      if (doc.data().id === currentUser.uid) {
-        console.log('igual')
-        allProjects.current.push(doc.data())
-      }
-    })
-  
-    console.log(allProjects.current)
-
-  }, [allProjects])
+  const formToggle = () => {
+    setIsOpen(isOpen = true);
+    showAndHide ? setShowAndHide(showAndHide = false) : setShowAndHide(showAndHide = true);
+  }
 
   return(
     <div className='projects-container'>
-      <ProjectsForm showAndHide={showAndHide.showAndHide} formToggle={formToggle} currentUser={currentUser} />
-      <Nav/>
+      <ProjectsForm getProyects={getProyects} user={user} showAndHide={showAndHide} formToggle={formToggle} isOpen={isOpen} />
+      <Nav user={user} />
       <div className='projects-list'>
         <div className='actions-nav'>
           <button onClick={formToggle} className='add-project'><i className='fas fa-plus'></i> add project</button>
@@ -96,9 +99,7 @@ export default function Projects() {
           </div>
         </div>
         <div className='list-container'>
-          {
-            allProjects.current.map((project, i) => <Card project={project} key={i}/>)
-          }
+            { loadProjects }
         </div>
       </div>
       <Completedprojects/>

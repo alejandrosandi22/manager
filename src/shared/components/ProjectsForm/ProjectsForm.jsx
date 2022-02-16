@@ -1,10 +1,12 @@
+import React, { useRef, useState } from 'react';
 import { collection, doc, getFirestore, setDoc } from "firebase/firestore";
-import { useRef, useState } from 'react';
 import './ProjectsForm.scss';
 
+
 export default function ProjectsForm(props) {
-  
+
   const form = useRef();
+  const db = getFirestore();
 
   let [ name, setName ] = useState();
   let [ description, setDescription ] = useState();
@@ -12,36 +14,39 @@ export default function ProjectsForm(props) {
   let [ details, setDetails ]= useState();
   
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log(name, description, link, details)
-    const db = getFirestore();
-    
-    console.log(props.currentUser, props.currentUser.uid)
+     e.preventDefault();
+
     let PROJECT_DATA = {
       name: name,
       description: description,
       link: link,
       details: details,
-      id: props.currentUser.uid
+      id: props.user.uid,
+      state: false,
+      createdAt: Date.now()
     }
-    const docRef = doc(collection(db, 'projects'))
+
+    const docRef = doc(collection(db, 'projects'));
     await setDoc(docRef, PROJECT_DATA)
       .then(() => console.log('guardado correctamente'))
       .catch((error) => console.log(error))
 
       PROJECT_DATA = {};
       form.current.reset();
+
+      props.getProyects();
+      props.formToggle();
   }
 
 
   return(
-    <div className={`projects-form-container ${props.showAndHide ? 'show-bg-form' : 'hide-bg-form'}`}>
+    <div className={`projects-form-container ${props.showAndHide ? 'show-bg-form' : props.isOpen ? 'hide-bg-form' : ''}`}>
       <div className={`projects-form ${props.showAndHide ? 'show-form' : 'hide-form'}`}>
         <h2 className='new-project-title'>New Project</h2>
         <form ref={form} onSubmit={handleSubmit} className='form'>
           <div className='input-wrapper'>
             <label htmlFor="name">Name:</label>
-            <input onChange={(e) => setName( name = e.target.value )} type="text" name="name" ide="name" placeholder='Project name'/>
+            <input onChange={(e) =>  setName( name = e.target.value )} type="text" name="name" ide="name" placeholder='Project name'/>
           </div>
           <div className='input-wrapper'>
             <label htmlFor="description">Description:</label>
