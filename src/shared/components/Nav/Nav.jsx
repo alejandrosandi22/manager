@@ -1,18 +1,16 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import './Nav.scss';
-
 import { Link, useNavigate } from 'react-router-dom';
 import { getAuth, signOut } from 'firebase/auth';
+import avatarDefault from '../../../assets/avatardefault.png';
 
-export default function Nav(props){
+export default function Nav({ user }){
+
   var [navToggle, setNavToggle] = useState(true);
   const navigate = useNavigate();
 
-  console.log('props =>', props.currentUser.current.photoURL)
-
   const navToggleChange = () => {
     navToggle ? setNavToggle(false) : setNavToggle(true);
-    console.log(navToggle);
   }
 
   const signInOut = async () => {
@@ -48,7 +46,7 @@ export default function Nav(props){
         </ul>
         <ul className='auth-user-wrapper'>
           <li className='list'>
-            <img src={ props.currentUser.current.photoURL } alt="user" />
+            <img src={  user ? user.photoURL :  avatarDefault } alt="user" />
             <i className='fas fa-angle-down'></i>
             <ul className='sublist'>
               <li><a href="https://alejandrosandi.ml">Settings</a></li>
