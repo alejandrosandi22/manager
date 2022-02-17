@@ -1,23 +1,21 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { collection, getFirestore, query, orderBy, onSnapshot, doc, updateDoc } from "firebase/firestore";
+import { collection, getFirestore, query, orderBy, onSnapshot, doc, updateDoc, deleteDoc } from "firebase/firestore";
 import './Projects.scss';
 import Nav from '../../shared/components/Nav/Nav';
 import ProjectsForm from '../../shared/components/ProjectsForm/ProjectsForm';
 
 function CompletedCard({ project }){
-console.log('=>', project)
-
   return(
     <div className='completed-card'>
       <div className='title-wrapper'>
-        <h4 className='card-title'>{ project.name }</h4>
-        <p>Link: <a href='https://chat-app.cf'>{ project.link }</a></p>
+        <h4 className='card-title'>{project.name}</h4>
+        <p>Link: <a href={project.link} target='_blank'>{project.link}</a></p>
       </div>
     </div>
   );
 }
 
-function Card({ project, id, getListProjects }) {
+function Card({ project, id, getListProjects, formToggle }) {
 
   const db = getFirestore();
   let [ check, setCheck ] = useState(project.state);
@@ -38,6 +36,14 @@ function Card({ project, id, getListProjects }) {
     })
   }
 
+  const deleteProject = async (e) => {
+    await deleteDoc(doc(db, 'projects', e.target.id)).then(() => getListProjects())
+  }
+
+  const editProjects = async (e) => {
+    formToggle();
+  }
+
   useEffect(() => {
     if (project.state) checkRef.current.checked = true;
   }, [])
@@ -45,18 +51,18 @@ function Card({ project, id, getListProjects }) {
   return(
     <div className={`project ${check ? 'completed' : ''}`}>
       <div className='check-completed'>
-        <input ref={checkRef} onLoad={(e) => console.log(e, 'LOADED')} id={`${id}`} onChange={(e) => handleCheck(e)} type="checkbox" name="completed" />
+        <input ref={checkRef} id={`${id}`} onChange={(e) => handleCheck(e)} type="checkbox" name="completed" />
         <h3 className='title-project'>{ project.name }</h3>
       </div>
-      <p className='project-description'>{ project.description + id + project.state }</p>
+      <p className='project-description'>{ project.description }</p>
       <div className='details-project'>
         <div className='details'>
           <span>Link: <a href="https://chat-app.cf" target="_blank" rel='noreferrer'>{ project.link }</a></span>
           <span>Details: { project.details }</span>
         </div>
         <div className='actions'>
-          <button><i className='fas fa-pen'></i></button>
-          <button><i className='fas fa-trash'></i></button>
+          <button><i id={`${id}`} onClick={(e) => editProjects(e)} className='fas fa-pen'></i></button>
+          <button><i id={`${id}`} onClick={(e) => deleteProject(e)} className='fas fa-trash'></i></button>
         </div>
       </div>
     </div>
@@ -94,8 +100,11 @@ function Completedprojects({ projects }) {
 
 export default function Projects({ user }) {
   const db = getFirestore();
+  const inputSearch = useRef('');
 
   var [ loadProjects, setLoadProjects ] = useState(null);
+  var [ search, setSearch ] = useState(null);
+  var [ found, setFound ] = useState([]);
   
   let [ projects, setProjects ] = useState([]);
   let [ showAndHide, setShowAndHide ] = useState(false);
@@ -113,14 +122,11 @@ export default function Projects({ user }) {
             return doc.data().id === user.uid;
           })
         );
-        if (projects.length === 0) {
-          req('Filed to get projects')
-        } else {
-          return res(projects);
-        }
+        if (projects.length === 0) req('Filed to get projects');
+        else return res(projects);
       })
     }).then(() => {
-      setLoadProjects(loadProjects = projects.map(project =>  <Card getListProjects={getListProjects} key={project.id} project={project.data()} id={project.id} />));
+      setLoadProjects(loadProjects = projects.map(project => <Card formToggle={formToggle} getListProjects={getListProjects} key={project.id} project={project.data()} id={project.id} />));
     })
   }
 
@@ -135,6 +141,19 @@ export default function Projects({ user }) {
     showAndHide ? setShowAndHide(showAndHide = false) : setShowAndHide(showAndHide = true);
   }
 
+  const searchProject = () => {
+    new Promise((res) => {
+      setFound(
+        found = projects.filter((project) => {
+          return project.data().name === inputSearch.current.value;
+        })
+      );
+      return res(found);
+    }).then(() => {
+      setSearch(search = found.map(project => <Card formToggle={formToggle} getListProjects={getListProjects} key={project.id} project={project.data()} id={project.id} />));
+    })
+  }
+
   return(
     <div className='projects-container'>
       <ProjectsForm getListProjects={getListProjects} user={user} showAndHide={showAndHide} formToggle={formToggle} isOpen={isOpen} />
@@ -143,12 +162,12 @@ export default function Projects({ user }) {
         <div className='actions-nav'>
           <button onClick={formToggle} className='add-project'><i className='fas fa-plus'></i> add project</button>
           <div className='search'>
-            <input type="text" name="search" id="search" placeholder='Search project'/>
-            <label htmlFor="search"><i className='fas fa-search'></i></label>
+            <input onChange={searchProject} ref={inputSearch} type="text" name="search" id="search" placeholder='Search project'/>
+            <label onClick={searchProject} htmlFor="search"><i className='fas fa-search'></i></label>
           </div>
         </div>
         <div className='list-container'>
-            { loadProjects }
+            { inputSearch.current.value !== '' && found.length !== 0 ? search : loadProjects}
         </div>
       </div>
       <Completedprojects projects={projects.map(project => {return project.data()})} user={user} />

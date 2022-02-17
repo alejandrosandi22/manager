@@ -9,11 +9,8 @@ import { BrowserRouter } from 'react-router-dom';
 
 const production = false;
 
-if (production) {
-  firebase.initializeApp(environmentProd.firebaseConfigProd);
-} else {
-  firebase.initializeApp(environment.firebaseConfig);
-}
+if (production) firebase.initializeApp(environmentProd.firebaseConfigProd);
+else firebase.initializeApp(environment.firebaseConfig);
 
 ReactDOM.render(
   <React.StrictMode>
