@@ -1,17 +1,15 @@
+import React from "react";
 import { useRef, useState } from "react";
-import './SignUp.scss';
 import SignInButtons from "../../shared/components/SignInButtons/SignInButtons";
 import accessAccount from '../../assets/access_account.svg';
-import firebase from 'firebase/compat/app';
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { getFirestore, doc, setDoc } from "firebase/firestore";
+import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import 'firebase/compat/storage';
 import { Link } from "react-router-dom";
+import firebase from "firebase/compat/app";
+import './SignUp.scss';
 
 
 export default function SignUp() {
-
-  const db = getFirestore();
 
   const [ name, setName ] = useState('');
   const [ lastName, setLastName] = useState('');
@@ -30,34 +28,29 @@ export default function SignUp() {
   const signingUp = (e) => {
     e.preventDefault();
     const storageRef = firebase.storage().ref();
+    let photoURL = '';
 
     if (password.password === requestPassword.requestPassword) {
       const auth = getAuth();
       createUserWithEmailAndPassword(auth, email.email, password.password)
-        .then( async (data) => {
-
-          let USER_DATA = {
-            name: `${name.name} ${lastName.lastName}`,
-            email: email.email,
-            id: data.user.uid,
-            photoURL: ''
-          }
+        .then( async (user_data) => {
 
           if (avatar.avatar.name !== 'selected item') {
-            await storageRef.child(`/photos/${data.user.uid}`).put(avatar.avatar)
+            await storageRef.child(`/photos/${user_data.user.uid}`).put(avatar.avatar)
               .then( async () => {
-                await storageRef.child(`/photos/${data.user.uid}`).getDownloadURL()
-                  .then(url => USER_DATA.photoURL = url)
+                await storageRef.child(`/photos/${user_data.user.uid}`).getDownloadURL()
+                  .then((url) => photoURL = url)
               })
           }
-
-          await setDoc(doc(db, 'users' , data.user.uid), USER_DATA)
-            .then(console.log('Registro Exitoso'))
-
-          console.log(USER_DATA);
-
-          setAvatar({avatar: {name: 'selected item'}});
-          form.current.reset();
+          updateProfile(auth.currentUser, {
+            displayName: `${name.name} ${lastName.lastName}`,
+            photoURL: photoURL
+          })
+          .then(() => {
+            console.log('Registro Exitoso');
+            setAvatar({avatar: {name: 'selected item'}});
+            form.current.reset();
+          })
         })
     } else console.log('la contraseña no coincide')
 
