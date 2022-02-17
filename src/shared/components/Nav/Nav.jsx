@@ -46,7 +46,7 @@ export default function Nav({ user }){
         </ul>
         <ul className='auth-user-wrapper'>
           <li className='list'>
-            <img src={  user ? user.photoURL :  avatarDefault } alt="user" />
+            <img src={ user ? user.photoURL :  avatarDefault } alt="user" />
             <i className='fas fa-angle-down'></i>
             <ul className='sublist'>
               <li><a href="https://alejandrosandi.ml">Settings</a></li>

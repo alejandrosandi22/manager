@@ -4,14 +4,15 @@ import './Projects.scss';
 import Nav from '../../shared/components/Nav/Nav';
 import ProjectsForm from '../../shared/components/ProjectsForm/ProjectsForm';
 
-function CompletedCard(){
+function CompletedCard({ project }){
+console.log('=>', project)
+
   return(
     <div className='completed-card'>
       <div className='title-wrapper'>
-        <h4 className='card-title'>Chat</h4>
-        <p>Link: <a href='https://chat-app.cf'>https://chat-app.cf</a></p>
+        <h4 className='card-title'>{ project.name }</h4>
+        <p>Link: <a href='https://chat-app.cf'>{ project.link }</a></p>
       </div>
-      <button className='see-button'>See</button>
     </div>
   );
 }
@@ -51,7 +52,7 @@ function Card({ project, id, getListProjects }) {
       <div className='details-project'>
         <div className='details'>
           <span>Link: <a href="https://chat-app.cf" target="_blank" rel='noreferrer'>{ project.link }</a></span>
-          <span>Details: { project.state }</span>
+          <span>Details: { project.details }</span>
         </div>
         <div className='actions'>
           <button><i className='fas fa-pen'></i></button>
@@ -62,13 +63,29 @@ function Card({ project, id, getListProjects }) {
   );
 }
 
-function Completedprojects() {
+function Completedprojects({ projects }) {
+
+  var [ completedProjects, setCompletedProjects ] = useState();
+  var [ listProjects, setListProjects ] = useState();
+
+  const getCompletedProjects = () => {
+    setCompletedProjects(
+      completedProjects = projects.filter((project) => {
+        return project.state;
+      })
+    );
+    setListProjects(listProjects = completedProjects.map((project, i) => <CompletedCard key={i} project={project}/>));
+  }
+  useEffect(() => {
+    getCompletedProjects();
+  }, [projects])
+
   return(
     <div className='completed-container'>
       <div className='completed-wrapper'>
         <h3 className='completed-title'>Completed projects</h3>
         <div className='cards-wrapper'>
-          <CompletedCard/>
+          { listProjects }
         </div>
       </div>
     </div>
@@ -89,22 +106,19 @@ export default function Projects({ user }) {
     new Promise((res, req) => {
       const queryCollection = query(collection(db, 'projects'));
       const q = query(queryCollection, orderBy('createdAt', 'desc'));
-      console.log(queryCollection)
 
       onSnapshot(q, (snapchot) => {
-        setProjects(projects = []);
-        snapchot.docs.forEach((doc) => {
-          if (doc.data().id === user.uid) {
-            projects.push(doc);
-          }
-        })
+        setProjects(
+          projects = snapchot.docs.filter((doc) => {
+            return doc.data().id === user.uid;
+          })
+        );
         if (projects.length === 0) {
           req('Filed to get projects')
         } else {
           return res(projects);
         }
       })
-
     }).then(() => {
       setLoadProjects(loadProjects = projects.map(project =>  <Card getListProjects={getListProjects} key={project.id} project={project.data()} id={project.id} />));
     })
@@ -137,7 +151,7 @@ export default function Projects({ user }) {
             { loadProjects }
         </div>
       </div>
-      <Completedprojects/>
+      <Completedprojects projects={projects.map(project => {return project.data()})} user={user} />
     </div>
   );
 }

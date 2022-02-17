@@ -7,16 +7,14 @@ import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 export default function LogIn() {
-  const [ email, setEmail ] = useState();
-  const [ password, setPassword ] = useState();
+  let [ email, setEmail ] = useState();
+  let [ password, setPassword ] = useState();
 
   useEffect( () => {
     const auth = getAuth();
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        console.log(user)
       } else {
-        console.log(null)
       }
     })
   }, [])
@@ -24,12 +22,11 @@ export default function LogIn() {
 
   const logIn = async (e) => {
     e.preventDefault();
-    console.log(email.email, password.password)
 
     const auth = getAuth();
-    await signInWithEmailAndPassword(auth, email.email, password.password)
-      .then(data => console.log(data))
-      .catch(error => console.log(error))
+    await signInWithEmailAndPassword(auth, email, password)
+      .then(data => alert('Sucessfully', data))
+      .catch(error => alert(error))
   }
 
   return(
@@ -39,11 +36,11 @@ export default function LogIn() {
         <form onSubmit={logIn} className='log-in-form'>
           <div className='email'>
             <label htmlFor='email'>Email</label>
-            <input onChange={(e) => setEmail({email: e.target.value})} type='email' name='email' id='email' />
+            <input onChange={(e) => setEmail(email = e.target.value)} type='email' name='email' id='email' />
           </div>
           <div className='password'>
             <label htmlFor='password'>Password</label>
-            <input onChange={(e) => setPassword({password: e.target.value})} type='password' name='password' id='pasword'/>
+            <input onChange={(e) => setPassword(password = e.target.value)} type='password' name='password' id='pasword'/>
           </div>
           <button onSubmit={logIn} className='log-in-button'>Log In</button>
         </form>
