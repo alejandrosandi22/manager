@@ -26,6 +26,7 @@ export default function ProjectsForm(props) {
       order: Date.now(),
       createdAt: Date.now()
     }
+    console.log(PROJECT_DATA)
 
     const docRef = doc(collection(db, 'projects'));
     await setDoc(docRef, PROJECT_DATA)
