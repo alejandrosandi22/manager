@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { collection, docs, getFirestore, query, orderBy, onSnapshot } from "firebase/firestore";
+import { collection, getFirestore, query, orderBy, onSnapshot, doc, updateDoc } from "firebase/firestore";
 import './Projects.scss';
 import Nav from '../../shared/components/Nav/Nav';
 import ProjectsForm from '../../shared/components/ProjectsForm/ProjectsForm';
@@ -16,18 +16,42 @@ function CompletedCard(){
   );
 }
 
-function Card({ project }) {
+function Card({ project, id, getListProjects }) {
+
+  const db = getFirestore();
+  let [ check, setCheck ] = useState(project.state);
+  const checkRef = useRef(id)
+
+  const handleCheck = async (e) => {
+    const projectData = e.target;
+
+    if (e.target.checked) setCheck(check = true);
+    else setCheck(check = false);
+
+    const projectRef = doc(db, 'projects', projectData.id);
+    await updateDoc(projectRef, {
+      createdAt: e.target.checked ? 0 : project.order,
+      state: projectData.checked
+    }).then(() => {
+      getListProjects();
+    })
+  }
+
+  useEffect(() => {
+    if (project.state) checkRef.current.checked = true;
+  }, [])
+
   return(
-    <div className='project'>
+    <div className={`project ${check ? 'completed' : ''}`}>
       <div className='check-completed'>
-        <input type="checkbox" name="completed" id="completed" />
+        <input ref={checkRef} onLoad={(e) => console.log(e, 'LOADED')} id={`${id}`} onChange={(e) => handleCheck(e)} type="checkbox" name="completed" />
         <h3 className='title-project'>{ project.name }</h3>
       </div>
-      <p className='project-description'>{ project.description }</p>
+      <p className='project-description'>{ project.description + id + project.state }</p>
       <div className='details-project'>
         <div className='details'>
           <span>Link: <a href="https://chat-app.cf" target="_blank" rel='noreferrer'>{ project.link }</a></span>
-          <span>Details: { project.details }</span>
+          <span>Details: { project.state }</span>
         </div>
         <div className='actions'>
           <button><i className='fas fa-pen'></i></button>
@@ -54,30 +78,41 @@ function Completedprojects() {
 export default function Projects({ user }) {
   const db = getFirestore();
 
-  var [ loadProjects, setLoadProjects ] = useState();
+  var [ loadProjects, setLoadProjects ] = useState(null);
   
   let [ projects, setProjects ] = useState([]);
   let [ showAndHide, setShowAndHide ] = useState(false);
   let [ isOpen, setIsOpen ] = useState(false);
 
-  const getProyects = async () => {
-    const queryCollection = query(collection(db, 'projects'));
-    const q = query(queryCollection, orderBy('createdAt', 'desc'));
+  const getListProjects = () => {
 
-    onSnapshot(q, (snapchot) => {
-      setProjects(projects = []);
-      snapchot.docs.forEach((doc) => {
-        if (doc.data().id === user.uid) {
-          projects.push(doc.data());
+    new Promise((res, req) => {
+      const queryCollection = query(collection(db, 'projects'));
+      const q = query(queryCollection, orderBy('createdAt', 'desc'));
+      console.log(queryCollection)
+
+      onSnapshot(q, (snapchot) => {
+        setProjects(projects = []);
+        snapchot.docs.forEach((doc) => {
+          if (doc.data().id === user.uid) {
+            projects.push(doc);
+          }
+        })
+        if (projects.length === 0) {
+          req('Filed to get projects')
+        } else {
+          return res(projects);
         }
       })
+
+    }).then(() => {
+      setLoadProjects(loadProjects = projects.map(project =>  <Card getListProjects={getListProjects} key={project.id} project={project.data()} id={project.id} />));
     })
-    setLoadProjects(loadProjects = projects.map(project =>  <Card key={project.createdAt} project={project} />));
   }
 
   useEffect(() => {
     if (user) {
-      getProyects();
+      getListProjects();
     }
   }, [user])
 
@@ -88,7 +123,7 @@ export default function Projects({ user }) {
 
   return(
     <div className='projects-container'>
-      <ProjectsForm getProyects={getProyects} user={user} showAndHide={showAndHide} formToggle={formToggle} isOpen={isOpen} />
+      <ProjectsForm getListProjects={getListProjects} user={user} showAndHide={showAndHide} formToggle={formToggle} isOpen={isOpen} />
       <Nav user={user} />
       <div className='projects-list'>
         <div className='actions-nav'>

@@ -10,11 +10,9 @@ export default class App extends React.Component {
     this.state = {
       user: null
     }
-    console.log('esto sucede primero')
   }
 
   componentDidMount(){
-    console.log('esto sucede segundo')
     const auth = getAuth();
     onAuthStateChanged(auth, current_user => {
       this.setState({user: current_user})

@@ -23,6 +23,7 @@ export default function ProjectsForm(props) {
       details: details,
       id: props.user.uid,
       state: false,
+      order: Date.now(),
       createdAt: Date.now()
     }
 
@@ -34,7 +35,7 @@ export default function ProjectsForm(props) {
       PROJECT_DATA = {};
       form.current.reset();
 
-      props.getProyects();
+      props.getListProjects();
       props.formToggle();
   }
 
