@@ -15,7 +15,7 @@ function CompletedCard({ project }){
   );
 }
 
-function Card({ project, id, getListProjects, formToggle }) {
+function Card({ project, id, getListProjects, handleEditProject }) {
 
   const db = getFirestore();
   let [ check, setCheck ] = useState(project.state);
@@ -40,9 +40,7 @@ function Card({ project, id, getListProjects, formToggle }) {
     await deleteDoc(doc(db, 'projects', e.target.id)).then(() => getListProjects())
   }
 
-  const editProjects = async (e) => {
-    formToggle();
-  }
+
 
   useEffect(() => {
     if (project.state) checkRef.current.checked = true;
@@ -57,11 +55,11 @@ function Card({ project, id, getListProjects, formToggle }) {
       <p className='project-description'>{ project.description }</p>
       <div className='details-project'>
         <div className='details'>
-          <span>Link: <a href="https://chat-app.cf" target="_blank" rel='noreferrer'>{ project.link }</a></span>
+          <span>Link: <a href={project.link} target="_blank" rel='noreferrer'>{ project.link }</a></span>
           <span>Details: { project.details }</span>
         </div>
         <div className='actions'>
-          <button><i id={`${id}`} onClick={(e) => editProjects(e)} className='fas fa-pen'></i></button>
+          <button><i id={`${id}`} onClick={(e) => handleEditProject(e)} className='fas fa-pen'></i></button>
           <button><i id={`${id}`} onClick={(e) => deleteProject(e)} className='fas fa-trash'></i></button>
         </div>
       </div>
@@ -101,14 +99,31 @@ function Completedprojects({ projects }) {
 export default function Projects({ user }) {
   const db = getFirestore();
   const inputSearch = useRef('');
-
+  
   var [ loadProjects, setLoadProjects ] = useState(null);
   var [ search, setSearch ] = useState(null);
   var [ found, setFound ] = useState([]);
   
+  let projectToEdit = useRef();
   let [ projects, setProjects ] = useState([]);
   let [ showAndHide, setShowAndHide ] = useState(false);
   let [ isOpen, setIsOpen ] = useState(false);
+  let [ isEdit , setIsEdit ] = useState(false);
+
+  const editProject = () => {
+    setIsEdit(isEdit = true);
+  }
+
+  const handleEditProject = async (e) => {
+    projectToEdit.current = e.target.id;
+    editProject();
+    setShowAndHide(showAndHide = true);
+  }
+
+  const handleCancel = () => {
+    setIsEdit(isEdit = false);
+    formToggle();
+  }
 
   const getListProjects = () => {
 
@@ -126,7 +141,7 @@ export default function Projects({ user }) {
         else return res(projects);
       })
     }).then(() => {
-      setLoadProjects(loadProjects = projects.map(project => <Card formToggle={formToggle} getListProjects={getListProjects} key={project.id} project={project.data()} id={project.id} />));
+      setLoadProjects(loadProjects = projects.map(project => <Card handleEditProject={handleEditProject} getListProjects={getListProjects} key={project.id} project={project.data()} id={project.id} />));
     })
   }
 
@@ -137,6 +152,7 @@ export default function Projects({ user }) {
   }, [user])
 
   const formToggle = () => {
+    setIsEdit(isEdit = false);
     setIsOpen(isOpen = true);
     showAndHide ? setShowAndHide(showAndHide = false) : setShowAndHide(showAndHide = true);
   }
@@ -145,18 +161,23 @@ export default function Projects({ user }) {
     new Promise((res) => {
       setFound(
         found = projects.filter((project) => {
-          return project.data().name === inputSearch.current.value;
+          let foundName = project.data().name.toLowerCase();
+          let foundDescription = project.data().description.toLowerCase();
+          let foundLink = project.data().link.toLowerCase();
+          let foundDetail = project.data().details.toLowerCase();
+          let searchText = inputSearch.current.value.toLowerCase();
+          return foundName.includes(searchText)  || foundDescription.includes(searchText) || foundLink.includes(searchText) || foundDetail.includes(searchText);
         })
       );
       return res(found);
     }).then(() => {
-      setSearch(search = found.map(project => <Card formToggle={formToggle} getListProjects={getListProjects} key={project.id} project={project.data()} id={project.id} />));
+      setSearch(search = found.map(project => <Card handleEditProject={handleEditProject} getListProjects={getListProjects} key={project.id} project={project.data()} id={project.id} />));
     })
   }
 
   return(
     <div className='projects-container'>
-      <ProjectsForm getListProjects={getListProjects} user={user} showAndHide={showAndHide} formToggle={formToggle} isOpen={isOpen} />
+      <ProjectsForm handleCancel={handleCancel} projectToEdit={projectToEdit.current} editProject={editProject} isEdit={isEdit} getListProjects={getListProjects} user={user} showAndHide={showAndHide} formToggle={formToggle} isOpen={isOpen} />
       <Nav user={user} />
       <div className='projects-list'>
         <div className='actions-nav'>
