@@ -1,4 +1,5 @@
-@use '../../sass/mixin';
+@use '../../../shared/sass/mixin';
+@use '../../../shared/sass/colors';
 
 .projects-form-container{
   position: fixed;
@@ -19,11 +20,11 @@
     padding: 2rem;
     width: 60vw;
     height: 60vh;
-    background: linear-gradient(145deg, #222222, #1d1d1d);
-    box-shadow:  .25rem .25rem .5rem #0d0d0d,
-                 -.25rem -.25rem .5rem #333333;
+    background: var(--gradient-background);
+    box-shadow:  .25rem .25rem .5rem var(--shadow-color1),
+                 -.25rem -.25rem .5rem var(--shadow-color2);
     .new-project-title{
-      color: #fff;
+      color: var(--font-color);
       text-align: center;
       height: 10%;
     }
@@ -38,7 +39,7 @@
         label{
 
           width: 7rem;
-          color: #fff;
+          color: var(--font-color);
         }
         input{
           @include mixin.inputs();

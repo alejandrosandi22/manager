@@ -3,8 +3,12 @@ import './Nav.scss';
 import { Link, useNavigate } from 'react-router-dom';
 import { getAuth, signOut } from 'firebase/auth';
 import avatarDefault from '../../../assets/avatardefault.png';
+import { useUser } from '../../../services/auth';
+import ThemeButton from '../ThemeButton/ThemeButton';
 
-export default function Nav({ user }){
+export default function Nav(){
+
+  const { user } = useUser();
 
   var [navToggle, setNavToggle] = useState(true);
   const navigate = useNavigate();
@@ -56,6 +60,7 @@ export default function Nav({ user }){
           </li>
         </ul>
       </nav>
+      <ThemeButton/>
       <div className='bars-wrapper'>
         <i onClick={navToggleChange} className={`bars fas ${navToggle ? 'fa-bars' : 'fa-times'}`}></i>
       </div>

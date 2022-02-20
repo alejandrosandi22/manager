@@ -1,29 +1,24 @@
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import React from 'react';
+import React, { createContext, useState } from 'react';
 import Router from './routes/routes';
+import { UserProvider } from './services/auth';
+import { useLocalStorage } from './services/localStorage'
+import ThemeButton from './shared/components/ThemeButton/ThemeButton';
 
+export default function App() {
 
-export default class App extends React.Component {
+  const [ theme, setTheme ] = useLocalStorage('theme', false);
 
-  constructor(){
-    super();
-    this.state = {
-      user: null
-    }
+  const changeTheme = () => {
+    if (theme) setTheme(false);
+    else setTheme(true);
   }
 
-  componentDidMount(){
-    const auth = getAuth();
-    onAuthStateChanged(auth, current_user => {
-      this.setState({user: current_user})
-    })
-  }
-
-  render() {
-    return(
-      <div className='App'>
-          <Router user={this.state.user} />
-    </div>
-    );
-  }
+  return(
+    <UserProvider>
+        <div className={`App ${!theme ? 'light-mode' : 'dark-mode'}`}>
+          <Router/>
+          <ThemeButton changeTheme={changeTheme}/>
+        </div>
+    </UserProvider>
+  );
 }
