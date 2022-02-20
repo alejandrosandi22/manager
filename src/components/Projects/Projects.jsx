@@ -2,14 +2,15 @@ import React, { useState, useEffect, useRef } from 'react';
 import { collection, getFirestore, query, orderBy, onSnapshot, doc, updateDoc, deleteDoc } from "firebase/firestore";
 import './Projects.scss';
 import Nav from '../../shared/components/Nav/Nav';
-import ProjectsForm from '../../shared/components/ProjectsForm/ProjectsForm';
+import ProjectsForm from './ProjectsForm/ProjectsForm';
+import { useUser } from '../../services/auth';
 
 function CompletedCard({ project }){
   return(
     <div className='completed-card'>
       <div className='title-wrapper'>
         <h4 className='card-title'>{project.name}</h4>
-        <p>Link: <a href={project.link} target='_blank'>{project.link}</a></p>
+        <p>Link: <a href={project.link} target='_blank' rel="noreferrer">{project.link}</a></p>
       </div>
     </div>
   );
@@ -44,7 +45,7 @@ function Card({ project, id, getListProjects, handleEditProject }) {
 
   useEffect(() => {
     if (project.state) checkRef.current.checked = true;
-  }, [])
+  }, [project.state])
 
   return(
     <div className={`project ${check ? 'completed' : ''}`}>
@@ -96,7 +97,9 @@ function Completedprojects({ projects }) {
   );
 }
 
-export default function Projects({ user }) {
+export default function Projects() {
+
+  const { user } = useUser();
   const db = getFirestore();
   const inputSearch = useRef('');
   
@@ -137,8 +140,7 @@ export default function Projects({ user }) {
             return doc.data().id === user.uid;
           })
         );
-        if (projects.length === 0) req('Filed to get projects');
-        else return res(projects);
+        if (projects.length !== 0) return res(projects);
       })
     }).then(() => {
       setLoadProjects(loadProjects = projects.map(project => <Card handleEditProject={handleEditProject} getListProjects={getListProjects} key={project.id} project={project.data()} id={project.id} />));
@@ -188,7 +190,8 @@ export default function Projects({ user }) {
           </div>
         </div>
         <div className='list-container'>
-            { inputSearch.current.value !== '' && found.length !== 0 ? search : loadProjects}
+          { !loadProjects ? <h4 className='empty-projects-messege'>You have not created any project</h4> : ''}
+          { inputSearch.current.value !== '' && found.length !== 0 ? search : loadProjects}
         </div>
       </div>
       <Completedprojects projects={projects.map(project => {return project.data()})} user={user} />

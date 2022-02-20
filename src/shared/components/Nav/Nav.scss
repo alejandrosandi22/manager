@@ -1,4 +1,5 @@
 @use '../../sass/responsive';
+@use '../../sass/colors';
 @import url('https://fonts.googleapis.com/css2?family=Cinzel&family=Open+Sans:wght@300;400;500;700&display=swap');
 
 
@@ -9,15 +10,15 @@
   left: 0;
   width: 100%;
   height: 4rem;
-  background: linear-gradient(145deg, #121212, #151515);
-  box-shadow:  5px 5px 5px #080808,
-             -5px -5px 5px #202020;
+  background: var(--gradient-background);
+  box-shadow:  5px 5px 5px var(--shadow-color1),
+             -5px -5px 5px var(--shadow-color2);
   display: flex;
   .title{
     height: 100%;
     width: 30%;
     a{
-      color: #fff;
+      color: var(--font-color);
       font-family: 'Cinzel', serif;
       font-size: 2rem;
       display: flex;
@@ -44,7 +45,7 @@
         justify-content: center;
         align-items: center;
         height: 100%;
-        color: #fff;
+        color: var(--font-color);
       }
     }
     .services-wrapper, .auth-user-wrapper{
@@ -53,7 +54,7 @@
         width: 8rem;
         cursor: pointer;
         &:hover{
-          background: #202020;
+          background: var(--shadow-color2);
         }
         &:hover > .sublist{
           display: block;
@@ -65,25 +66,25 @@
           width: 100%;
           height: 100%;
           text-decoration: none;
-          color: #fff;
+          color: var(--font-color);
         }
         .sublist{
           position: absolute;
           top: 100%;
           left: -20%;
           width: 100%;
-          background: #141414;
-          box-shadow: 5px 5px 5px #080808;
+          background: var(--background);
+          box-shadow: 5px 5px 5px var(--shadow-color1);
           transition: all 1s linear;
           display: none;
           li{
             width: 100%;
             height: 3rem;
             &:hover{
-              background: #202020;
+              background: var(--shadow-color2);
             }
             &:not(:nth-child(5)){
-              border-bottom: 1px solid #202020;
+              border-bottom: 1px solid var(--shadow-color2);
             }
             a{
               display: flex;
@@ -91,11 +92,11 @@
               justify-content: center;
               width: 100%;
               height: 100%;
-              background: #141414;
-              color: #fff;
+              background: var(--background);
+              color: var(--font-color);
               text-decoration: none;
               &:hover{
-                background: #202020;
+                background: var(--shadow-color2);
               }
             }
           }
@@ -127,7 +128,7 @@
     align-items: center;
     display: none;
     .bars{
-      color: #fff;
+      color: var(--font-color);
       font-size: 2rem;
       cursor: pointer;
     }

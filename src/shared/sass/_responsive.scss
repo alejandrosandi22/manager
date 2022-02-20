@@ -1,3 +1,5 @@
+@use './colors';
+
 @mixin sign-up {
   @media (max-width: 1024px) {
     .sign-up-container{
@@ -90,14 +92,14 @@
       justify-content: space-between;
       padding: 0 3rem;
       .nav{
-        background: linear-gradient(145deg, #121212, #151515);
+        background: var(--gradient-background);
         flex-direction: column;
         position: fixed;
         height: calc(50% - 4rem);
         width: 50%;
         right: 0;
         top: 4rem;
-        box-shadow: -2px 5px 5px #080808;
+        box-shadow: -2px 5px 5px var(--shadow-color1);
         transform: translateX(100%);
         transition: .5s;
         .services-wrapper{
@@ -107,11 +109,11 @@
           .list{
             height: 33%;
             width: 100%;
-            border-top: 1px solid #202020;
+            border-top: 1px solid var(--shadow-color2);
             .sublist{
               top: 50%;
               left: -100%;
-              box-shadow: -2px 5px 5px #080808;
+              box-shadow: -2px 5px 5px var(--shadow-color1);
               width: 101%;
               li{
                 height: 5rem;
@@ -120,8 +122,8 @@
           }
         }
         .auth-user-wrapper{
-          border-top: 1px solid #202020;
-          border-bottom: 1px solid #202020;
+          border-top: 1px solid var(--shadow-color2);
+          border-bottom: 1px solid var(--shadow-color2);
           gap: 0;
           height: 20%;
           .list{
@@ -137,7 +139,7 @@
               top: 50%;
               left: -100%;
               width: 100%;
-              box-shadow: -2px 5px 5px #080808;
+              box-shadow: -2px 5px 5px var(--shadow-color1);
               li{
                 height: 5rem;
               }
@@ -151,6 +153,40 @@
       }
       .bars-wrapper{
         display: flex;
+      }
+    }
+  }
+}
+
+@mixin dashboard {
+  @media (max-width: 1024px) {
+    .dashboard-container{
+      width: 100vw;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-rows: 40vh 40vh 40vh 40vh;
+      grid-template-areas:
+      'goals finance finance'
+      'dates dates projects'
+      'tasks tasks projects '
+      'meetings meetings gym';
+      .areas{
+        margin: .5rem;
+      }
+    }
+  }
+  @media (max-width: 720px) {
+    .dashboard-container{
+      width: 100vw;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 40vh 40vh 40vh 40vh 40vh;
+      grid-template-areas:
+      'finance finance'
+      'dates dates'
+      'tasks projects '
+      'gym goals'
+      'meetings meetings';
+      .areas{
+        margin: .5rem;
       }
     }
   }

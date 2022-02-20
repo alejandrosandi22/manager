@@ -1,10 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { collection, doc, getDoc, getFirestore, setDoc, updateDoc } from "firebase/firestore";
 import './ProjectsForm.scss';
+import { useUser } from '../../../services/auth';
 
 
 export default function ProjectsForm(props) {
 
+  const { user } = useUser();
   const form = useRef();
   const db = getFirestore();
 
@@ -46,7 +48,7 @@ export default function ProjectsForm(props) {
         description: description,
         link: link,
         details: details,
-        id: props.user.uid,
+        id: user.uid,
         state: false,
         order: Date.now(),
         createdAt: Date.now()
