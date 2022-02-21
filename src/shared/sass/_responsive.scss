@@ -191,3 +191,13 @@
     }
   }
 }
+
+@mixin theme-button {
+  @media (max-width: 1024px) {
+    .theme-container{
+      top: 1.2rem;
+      left: 50%;
+      margin: auto 0;
+    }
+  }
+}

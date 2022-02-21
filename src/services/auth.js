@@ -30,7 +30,7 @@ export function UserProvider(props) {
       user,
       loadingUser
     })
-  }, [user])
+  }, [user, loadingUser])
 
   console.log(user)
   return <UserContext.Provider value={value} {...props} />

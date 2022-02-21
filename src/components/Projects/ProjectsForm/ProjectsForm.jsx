@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { collection, doc, getDoc, getFirestore, setDoc, updateDoc } from "firebase/firestore";
+import { collection, doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
 import './ProjectsForm.scss';
 import { useUser } from '../../../services/auth';
 
@@ -19,7 +19,7 @@ export default function ProjectsForm(props) {
   let [ description, setDescription ] = useState();
   let [ link, setLink ] = useState();
   let [ details, setDetails ]= useState();
-  let [ currentProjectData, setCurrentProjectData ] = useState();
+  const [ currentProjectData, setCurrentProjectData ] = useState();
 
   useEffect(() => {
     console.log(props.isEdit)
@@ -27,7 +27,7 @@ export default function ProjectsForm(props) {
       if (props.isEdit) {
         const docRef = doc(db, 'projects', props.projectToEdit);
         const docSnap = await getDoc(docRef);
-        setCurrentProjectData(currentProjectData = docSnap.data())
+        setCurrentProjectData(docSnap.data())
         if (docSnap.exists()) return res(docSnap.data());
       }
     }).then((data) => {
@@ -36,6 +36,7 @@ export default function ProjectsForm(props) {
       inputLink.current.value = data.link;
       inputDetails.current.value = data.details;
     })
+    // eslint-disable-next-line
   }, [props.showAndHide])
   
   const handleSubmit = async (e) => {

@@ -1,11 +1,10 @@
-import React, { createContext, useState } from 'react';
+import React from 'react';
 import Router from './routes/routes';
 import { UserProvider } from './services/auth';
-import { useLocalStorage } from './services/localStorage'
 import ThemeButton from './shared/components/ThemeButton/ThemeButton';
+import { useLocalStorage } from './services/localStorage';
 
 export default function App() {
-
   const [ theme, setTheme ] = useLocalStorage('theme', false);
 
   const changeTheme = () => {
@@ -15,10 +14,10 @@ export default function App() {
 
   return(
     <UserProvider>
-        <div className={`App ${!theme ? 'light-mode' : 'dark-mode'}`}>
-          <Router/>
-          <ThemeButton changeTheme={changeTheme}/>
-        </div>
+      <div className={`App ${!theme ? 'light-mode' : 'dark-mode'}`}>
+        <Router/>
+        <ThemeButton changeTheme={changeTheme} theme={theme} />
+      </div>
     </UserProvider>
   );
 }

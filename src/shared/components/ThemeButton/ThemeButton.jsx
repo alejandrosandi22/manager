@@ -1,10 +1,11 @@
 import React from "react";
 import './ThemeButton.scss';
 
-export default function ThemeButton({ changeTheme }) {
+export default function ThemeButton({ changeTheme, theme }) {
+
   return(
     <div className="theme-container">
-      <button onClick={changeTheme}>cambiar</button>
+      <input onChange={changeTheme} className={`fas fa-sun checkbox ${theme ? 'light-mode' : 'dark-mode'}`} type="checkbox" name="theme" id="theme" />
     </div>
   );
 }
