@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { collection, getFirestore, query, orderBy, onSnapshot, doc, updateDoc, deleteDoc } from "firebase/firestore";
+import { collection, getFirestore, query, orderBy, onSnapshot } from "firebase/firestore";
 import './Projects.scss';
+import Card from './Card/Card';
 import Nav from '../../shared/components/Nav/Nav';
 import ProjectsForm from './ProjectsForm/ProjectsForm';
 import { useUser } from '../../services/auth';
@@ -11,58 +12,6 @@ function CompletedCard({ project }){
       <div className='title-wrapper'>
         <h4 className='card-title'>{project.name}</h4>
         <p>Link: <a href={project.link} target='_blank' rel="noreferrer">{project.link}</a></p>
-      </div>
-    </div>
-  );
-}
-
-function Card({ project, id, getListProjects, handleEditProject }) {
-
-  const db = getFirestore();
-  let [ check, setCheck ] = useState(project.state);
-  const checkRef = useRef(id)
-
-  const handleCheck = async (e) => {
-    const projectData = e.target;
-
-    if (e.target.checked) setCheck(check = true);
-    else setCheck(check = false);
-
-    const projectRef = doc(db, 'projects', projectData.id);
-    await updateDoc(projectRef, {
-      createdAt: e.target.checked ? 0 : project.order,
-      state: projectData.checked
-    }).then(() => {
-      getListProjects();
-    })
-  }
-
-  const deleteProject = async (e) => {
-    await deleteDoc(doc(db, 'projects', e.target.id)).then(() => getListProjects())
-  }
-
-
-
-  useEffect(() => {
-    if (project.state) checkRef.current.checked = true;
-  }, [project.state])
-
-  return(
-    <div className={`project ${check ? 'completed' : ''}`}>
-      <div className='check-completed'>
-        <input ref={checkRef} id={`${id}`} onChange={(e) => handleCheck(e)} type="checkbox" name="completed" />
-        <h3 className='title-project'>{ project.name }</h3>
-      </div>
-      <p className='project-description'>{ project.description }</p>
-      <div className='details-project'>
-        <div className='details'>
-          <span>Link: <a href={project.link} target="_blank" rel='noreferrer'>{ project.link }</a></span>
-          <span>Details: { project.details }</span>
-        </div>
-        <div className='actions'>
-          <button><i id={`${id}`} onClick={(e) => handleEditProject(e)} className='fas fa-pen'></i></button>
-          <button><i id={`${id}`} onClick={(e) => deleteProject(e)} className='fas fa-trash'></i></button>
-        </div>
       </div>
     </div>
   );
