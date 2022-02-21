@@ -14,7 +14,7 @@ export default function App() {
 
   return(
     <UserProvider>
-      <div className={`App ${!theme ? 'light-mode' : 'dark-mode'}`}>
+      <div className={`App ${!theme ? 'light-mode' : ''}`}>
         <Router/>
         <ThemeButton changeTheme={changeTheme} theme={theme} />
       </div>

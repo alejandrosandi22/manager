@@ -13,6 +13,13 @@
   --card-button: #EFEFEF;
   --completed-font: #EFEFEF;
 
+  --card-background: linear-gradient(145deg, #242424, #121212);
+  --completed-card: linear-gradient(145deg, #0e0e0e, #141414);
+  --card-shadow: #808080;
+  --card-font: #fff;
+  --card-button: #212121;
+  --completed-font: #535353;
+
   font-size: 1vw;
   @media (max-width: 1024px) {
     font-size: 1.5vh;
@@ -49,9 +56,6 @@
 
 html {
   height: -webkit-fill-available;
-}
-.dark-mode{
-  @include colors.dark-mode();
 }
 .light-mode{
   @include colors.light-mode();

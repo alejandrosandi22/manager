@@ -1,18 +1,3 @@
-@mixin dark-mode {
-  --background: #141414;
-  --gradient-background: linear-gradient(145deg, #151515, #121212);
-  --font-color: #fff;
-  --link-color: #C0C0C0;
-  --shadow-color1: #080808;
-  --shadow-color2: #202020;
-
-  --card-background: linear-gradient(145deg, #d7d7d7, #ffffff);
-  --completed-card: linear-gradient(145deg, #bebebe, #e2e2e2);
-  --card-shadow: #606060;
-  --card-font: #000;
-  --card-button: #EFEFEF;
-  --completed-font: #535353;
-}
 @mixin light-mode {
   --background: #e0e0e0;
   --gradient-background: linear-gradient(145deg, #f0f0f0, #cacaca);
@@ -21,10 +6,10 @@
   --shadow-color1: #bebebe;
   --shadow-color2: #fff;
 
-  --card-background: linear-gradient(145deg, #151515, #121212);
-  --completed-card: linear-gradient(145deg, #0e0e0e, #141414);
-  --card-shadow: #808080;
-  --card-font: #fff;
-  --card-button: #212121;
+  --card-background: linear-gradient(145deg, #d7d7d7, #ffffff);
+  --completed-card: linear-gradient(145deg, #bebebe, #e2e2e2);
+  --card-shadow: #606060;
+  --card-font: #000;
+  --card-button: #EFEFEF;
   --completed-font: #535353;
 }
